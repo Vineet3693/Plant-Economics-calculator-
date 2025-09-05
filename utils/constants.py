@@ -1,37 +1,29 @@
-"""Application constants and reference data"""
-# Lang Factors for different industries
-LANG_FACTORS = {
-    'Chemical Processing': 4.5,
-    'Petrochemical': 4.2,
-    'Pharmaceutical': 5.5,
-    'Food Processing': 3.8,
-    'Oil Refining': 4.0,
-    'General Chemical': 4.3
-}
 
-# Scaling Exponents for equipment sizing
-SCALING_EXPONENTS = {
-    'Heat Exchangers': 0.65,
-    'Pumps': 0.35,
-    'Compressors': 0.75,
-    'Reactors': 0.65,
-    'Distillation Columns': 0.70,
-    'Default': 0.6
-}
+"""Constants for Plant Economics Calculator"""
 
-# Depreciation Methods
+# Depreciation methods
 DEPRECIATION_METHODS = [
-    'Straight Line',
-    'Declining Balance',
-    'Sum of Years Digits',
-    'Sinking Fund'
+    "Straight Line",
+    "Declining Balance", 
+    "Sum of Years Digits",
+    "Sinking Fund"
 ]
 
-# Currency symbols
-CURRENCY_SYMBOL = "$"
+# Lang factors by industry
+LANG_FACTORS = {
+    "Solid Processing": 3.1,
+    "Solid-Fluid Processing": 4.3,
+    "Fluid Processing": 4.8,
+    "Chemical Processing": 4.3,
+    "Petrochemical": 5.5
+}
 
-# Percentage format
-PERCENTAGE_FORMAT = "{:.2f}%"
-
-# Money format
-MONEY_FORMAT = "${:,.2f}"
+# Scaling exponents by equipment type
+SCALING_EXPONENTS = {
+    "General Equipment": 0.6,
+    "Compressors": 0.8,
+    "Heat Exchangers": 0.7,
+    "Pumps": 0.5,
+    "Reactors": 0.6,
+    "Distillation Columns": 0.65
+}
