@@ -1,0 +1,348 @@
+
+"""Custom styling and CSS for Streamlit app"""
+import streamlit as st
+from config import Config
+
+def apply_custom_css():
+    """Apply custom CSS styling to the Streamlit app"""
+    st.markdown(f"""
+    <style>
+        /* Main app styling */
+        .main {{
+            padding: 1rem;
+        }}
+        
+        /* Header styling */
+        .main-header {{
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, {Config.PRIMARY_COLOR}, {Config.SECONDARY_COLOR});
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }}
+        
+        /* Metric cards styling */
+        .metric-card {{
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid {Config.PRIMARY_COLOR};
+            margin: 1rem 0;
+        }}
+        
+        .metric-value {{
+            font-size: 2rem;
+            font-weight: bold;
+            color: {Config.PRIMARY_COLOR};
+        }}
+        
+        .metric-title {{
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }}
+        
+        /* Success/Warning/Error colors */
+        .success {{
+            color: {Config.SUCCESS_COLOR};
+        }}
+        
+        .warning {{
+            color: {Config.WARNING_COLOR};
+        }}
+        
+        .error {{
+            color: {Config.ERROR_COLOR};
+        }}
+        
+        /* Tab styling */
+        .stTabs [data-baseweb="tab-list"] {{
+            gap: 2px;
+        }}
+        
+        .stTabs [data-baseweb="tab"] {{
+            height: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: #f0f2f6;
+            border-radius: 5px 5px 0 0;
+        }}
+        
+        .stTabs [aria-selected="true"] {{
+            background-color: {Config.PRIMARY_COLOR};
+            color: white;
+        }}
+        
+        /* Button styling */
+        .stButton > button {{
+            background-color: {Config.PRIMARY_COLOR};
+            color: white;
+            border-radius: 5px;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }}
+        
+        .stButton > button:hover {{
+            background-color: {Config.SECONDARY_COLOR};
+            color: white;
+        }}
+        
+        /* Sidebar styling */
+        .css-1d391kg {{
+            background-color: #f8f9fa;
+        }}
+        
+        /* Input styling */
+        .stNumberInput > div > div > input {{
+            border-radius: 5px;
+        }}
+        
+        .stSelectbox > div > div > div {{
+            border-radius: 5px;
+        }}
+        
+        /* Chart container */
+        .chart-container {{
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }}
+        
+        /* AI explanation box */
+        .ai-explanation {{
+            background: #f8f9fa;
+            border-left: 4px solid {Config.SUCCESS_COLOR};
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: 'Arial', sans-serif;
+        }}
+        
+        .ai-explanation h4 {{
+            color: {Config.SUCCESS_COLOR};
+            margin-bottom: 0.5rem;
+        }}
+        
+        /* Results container */
+        .results-container {{
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }}
+        
+        /* Dashboard grid */
+        .dashboard-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }}
+        
+        /* Formula display */
+        .formula-box {{
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 0.5rem 0;
+        }}
+        
+        /* Warning messages */
+        .warning-message {{
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 0.75rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }}
+        
+        /* Success messages */
+        .success-message {{
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 0.75rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }}
+        
+        /* Loading spinner */
+        .loading {{
+            text-align: center;
+            color: {Config.PRIMARY_COLOR};
+            margin: 2rem 0;
+        }}
+        
+        /* Footer */
+        .footer {{
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            border-top: 1px solid #dee2e6;
+            margin-top: 3rem;
+        }}
+        
+        /* Hide Streamlit branding */
+        #MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        
+        /* Responsive design */
+        @media (max-width: 768px) {{
+            .main-header {{
+                padding: 1rem;
+            }}
+            
+            .metric-card {{
+                margin: 0.5rem 0;
+                padding: 1rem;
+            }}
+            
+            .dashboard-grid {{
+                grid-template-columns: 1fr;
+            }}
+        }}
+    </style>
+    """, unsafe_allow_html=True)
+
+def create_metric_card(title, value, delta=None, color="primary"):
+    """Create a styled metric card"""
+    color_map = {
+        "primary": Config.PRIMARY_COLOR,
+        "success": Config.SUCCESS_COLOR,
+        "warning": Config.WARNING_COLOR,
+        "error": Config.ERROR_COLOR
+    }
+    
+    selected_color = color_map.get(color, Config.PRIMARY_COLOR)
+    
+    delta_html = ""
+    if delta is not None:
+        delta_color = Config.SUCCESS_COLOR if delta >= 0 else Config.ERROR_COLOR
+        delta_symbol = "↑" if delta >= 0 else "↓"
+        delta_html = f'<div style="color: {delta_color}; font-size: 0.8rem; margin-top: 0.5rem;">{delta_symbol} {delta}</div>'
+    
+    card_html = f"""
+    <div class="metric-card" style="border-left-color: {selected_color};">
+        <div class="metric-title">{title}</div>
+        <div class="metric-value" style="color: {selected_color};">{value}</div>
+        {delta_html}
+    </div>
+    """
+    
+    st.markdown(card_html, unsafe_allow_html=True)
+
+def create_info_box(content, box_type="info"):
+    """Create styled info boxes"""
+    type_map = {
+        "info": {"color": Config.PRIMARY_COLOR, "bg": "#e3f2fd"},
+        "success": {"color": Config.SUCCESS_COLOR, "bg": "#e8f5e8"},
+        "warning": {"color": Config.WARNING_COLOR, "bg": "#fff8e1"},
+        "error": {"color": Config.ERROR_COLOR, "bg": "#ffebee"}
+    }
+    
+    style = type_map.get(box_type, type_map["info"])
+    
+    st.markdown(f"""
+    <div style="
+        background-color: {style['bg']};
+        border-left: 4px solid {style['color']};
+        padding: 1rem;
+        border-radius: 5px;
+        margin: 1rem 0;
+    ">
+        {content}
+    </div>
+    """, unsafe_allow_html=True)
+
+def create_header(title, subtitle=None):
+    """Create styled header"""
+    subtitle_html = f'<p style="margin-top: 0.5rem; opacity: 0.8;">{subtitle}</p>' if subtitle else ""
+    
+    st.markdown(f"""
+    <div class="main-header">
+        <h1 style="margin: 0; font-size: 2.5rem;">{Config.APP_ICON} {title}</h1>
+        {subtitle_html}
+    </div>
+    """, unsafe_allow_html=True)
+
+def create_formula_display(formula_text, description=""):
+    """Display mathematical formulas in a styled box"""
+    st.markdown(f"""
+    <div class="formula-box">
+        <strong>Formula:</strong> {formula_text}
+        {f'<br><em>{description}</em>' if description else ''}
+    </div>
+    """, unsafe_allow_html=True)
+
+def create_results_table(data_dict, title="Results"):
+    """Create a styled results table"""
+    table_rows = ""
+    for key, value in data_dict.items():
+        formatted_key = key.replace('_', ' ').title()
+        table_rows += f"""
+        <tr>
+            <td style="padding: 0.5rem; border-bottom: 1px solid #dee2e6; font-weight: bold;">{formatted_key}</td>
+            <td style="padding: 0.5rem; border-bottom: 1px solid #dee2e6; text-align: right;">{value}</td>
+        </tr>
+        """
+    
+    st.markdown(f"""
+    <div class="results-container">
+        <h4 style="margin-top: 0; color: {Config.PRIMARY_COLOR};">{title}</h4>
+        <table style="width: 100%; border-collapse: collapse;">
+            {table_rows}
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+def show_loading(message="Processing..."):
+    """Show loading message"""
+    st.markdown(f"""
+    <div class="loading">
+        <div style="font-size: 1.2rem; margin-bottom: 1rem;">⚙️ {message}</div>
+        <div style="opacity: 0.7;">Please wait while we perform the calculations...</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+def create_comparison_table(data_list, headers):
+    """Create comparison table for multiple scenarios"""
+    header_row = "".join([f'<th style="padding: 0.75rem; background-color: {Config.PRIMARY_COLOR}; color: white; border: 1px solid #dee2e6;">{header}</th>' for header in headers])
+    
+    table_rows = ""
+    for row_data in data_list:
+        row_cells = "".join([f'<td style="padding: 0.75rem; border: 1px solid #dee2e6; text-align: right;">{cell}</td>' for cell in row_data])
+        table_rows += f"<tr>{row_cells}</tr>"
+    
+    st.markdown(f"""
+    <div class="results-container">
+        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+            <thead>
+                <tr>{header_row}</tr>
+            </thead>
+            <tbody>
+                {table_rows}
+            </tbody>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+def add_footer():
+    """Add application footer"""
+    st.markdown("""
+    <div class="footer">
+        <p>Plant Economics Calculator for Chemical Engineering</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">
+            Built with Streamlit • Enhanced with Groq AI • Designed for Engineering Excellence
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
